@@ -2,14 +2,15 @@
 const desplazamiento = document.getElementById('desplazamiento');
 const texto = document.getElementById('texto');
 const textoCifrado = document.getElementById('cifrado');
-
+console.log("Hola mundo");
 //vamos a crear una funcion que se encargue del algoritmo de cesar
 function cifrado() {
 
     //obtener el texto que se ingresó para cifrar
     const textoIngresado = texto.value;
     //debo de obtener cada caracter de la cadena y validar unicamente caracteres
-    textoCifrado.value = textoIngresado.split(' ').map( c => {
+    
+    textoCifrado.value = textoIngresado.split('').map( c => {
         let mayus = (c === c.toUpperCase()) ? true: false;
         let valorEntero = c.toLowerCase().charCodeAt(0);
         
@@ -30,5 +31,5 @@ function cifrado() {
     }).join('');
 }
 
-texto?.addEventListener('keyup', cifrado);
-desplazamiento?.addEventListener('change', cifrado);
+texto.addEventListener('keyup', cifrado);
+desplazamiento.addEventListener('change', cifrado);

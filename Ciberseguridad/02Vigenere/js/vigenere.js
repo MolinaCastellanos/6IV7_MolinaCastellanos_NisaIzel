@@ -1,3 +1,7 @@
+
+const texto = document.getElementById('texto');
+const clave = document.getElementById('txtclave');
+
 var vigenere = vigenere || (function () {
 
     //Aqui tenemos que crear una funcion que se encarge de obtener el texto,
@@ -20,6 +24,8 @@ var vigenere = vigenere || (function () {
                         pos = (pos >= longitud) ? pos - 1 : pos;
                     } else {
                         // descifrar ahí lo hacen :3
+                        pos -= desp;
+                        pos = (pos <= longitud) ? pos + 1 : pos;
                     }
                     return abc[pos];
                 }
@@ -50,22 +56,22 @@ var vigenere = vigenere || (function () {
 //cuando la clave sea más grande que el texto para cifrar
 
 //cuando la clave sea más grande que el texto para descifrar
-
+console.log("sdkdsj");
 //cifrar
-function codificar(texto, clave){
+function codificar(){
 
     var resultado = '';
     var indiceclave = 0;
-    var charartexto = texto.split('')
+    var charartexto = texto.value.split('')
 
     for (let i = 0; i < charartexto.length; i++) {
-        var desp = obindiceClave(clave.charAt(indiceclave));
+        var desp = obindiceClave(clave.value.charAt(indiceclave));
         var chartexto = charartexto[i];
 
         resultado += vigenere.encode(chartexto, (desp >= 26) ? desp % 26 : desp);
         indiceclave++;
         
-        if (indiceclave >= clave.length) {
+        if (indiceclave >= clave.value.length) {
             indiceclave = 0;
         }
 
@@ -81,3 +87,15 @@ function obindiceClave (reco) {
 //descifrar
 
 //reiniciar
+
+//copiar
+function copiarTexto() {
+    const resultado = document.getElementById("respuesta");
+    if (resultado.value) {
+        navigator.clipboard.writeText(resultado.value)
+            .then(() => alert("Texto copiado al portapapeles."))
+            .catch(() => alert("Error al copiar el texto."));
+    } else {
+        alert("No hay texto para copiar.");
+    }
+}
