@@ -12,6 +12,9 @@
     </head>
     <body>
         <div class="container">
+            <br>
+            <button class="btn btn-light"><a href="../../index.html">Regresar</a></button>
+            <br>
             <h1>Cifrado Cesar con JS</h1>
             <hr>
             <div class="center-block">
@@ -19,23 +22,22 @@
                     <h3>Texto a cifrar:</h3>
                     <input type="text" id="texto">
                     <br><br>
-                    <input type="button" class="btn btn-info" value="Cifrar" onclick="Codificar()">
-                    <input type="button" class="btn btn-info" value="Descifrar" onclick="">
-                    <input type="button" class="btn btn-info" value="Reiniciar" onclick="">
-                    <br><br>
                     <h3>Ingresa la clase secreta:</h3>
                     <input type="text" name="posicionamiento" id="txtclave" onpaste="return false" ondrop="return false">
+                    <br><br>
+                    <input type="button" class="btn btn-info" value="Cifrar" id="btn_Cifrar">
+                    <input type="button" class="btn btn-info" value="Descifrar" id="btn_Descifrar">
+                    <input type="button" class="btn btn-info" value="Reiniciar" id="btn_Reiniciar">
                     <br><br>
                     <h3>Texto cifrado:</h3>
                     <textarea name="resultado" id="resultado" onpaste="return false" ondrop="return false" disabled="disabled"></textarea>
                     <br>
-                    <input type="button" class="btn btn-info" value="Copiar" onclick="">
+                    <input type="button" class="btn btn-info" value="Copiar" id="btn_Copiar">
 
                 </article>
             </div>
 
         </div>
-
-        <script type="text/javascript" src="js/vigenere.js"></script>
+        <script src="js/vigenere.js"></script>
     </body>
 </html>
