@@ -117,4 +117,7 @@ public class Metodos {
         //del tipo de buffer para el archivo
         System.out.write(buffer, 0, buffer.length);
     }
+    
+    
+    
 }

@@ -5,6 +5,8 @@
 package des;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -45,6 +47,7 @@ public class Interfaz1 extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         Txt_Estado = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
+        Btn_Leer = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("🔐 Cifrado y Descifrado con DES");
@@ -77,6 +80,13 @@ public class Interfaz1 extends javax.swing.JFrame {
 
         jLabel1.setText("Estado del Proceso:");
 
+        Btn_Leer.setText("📄 Ver contenido");
+        Btn_Leer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_LeerActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -86,16 +96,18 @@ public class Interfaz1 extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(Btn_Cifrar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Btn_Descifrar)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Btn_Leer)
+                        .addContainerGap(221, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(Txt_Ruta)
                                 .addGap(18, 18, 18)
                                 .addComponent(Btn_Buscar))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE)))
@@ -111,7 +123,8 @@ public class Interfaz1 extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Btn_Cifrar)
-                    .addComponent(Btn_Descifrar))
+                    .addComponent(Btn_Descifrar)
+                    .addComponent(Btn_Leer))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
                 .addGap(8, 8, 8)
@@ -151,6 +164,32 @@ public class Interfaz1 extends javax.swing.JFrame {
             Logger.getLogger(Interfaz1.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_Btn_DescifrarActionPerformed
+
+    private void Btn_LeerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_LeerActionPerformed
+        try {
+            mostrarContenidoArchivo(Txt_Ruta.getText());
+        } catch (Exception e) {
+            mostrarMensaje(e.getMessage());
+        }
+    }//GEN-LAST:event_Btn_LeerActionPerformed
+
+    private void mostrarContenidoArchivo(String ruta) throws IOException {
+        
+        if (ruta == null || ruta.isEmpty()) {
+            mostrarMensaje("⚠️ Por favor selecciona un archivo.");
+            return;
+        }
+
+        File archivo = new File(ruta);
+        if (!archivo.exists()) {
+            mostrarMensaje("⚠️ El archivo no existe.");
+            return;
+        }
+
+        // Crear y mostrar el diálogo
+        new Dialog_Leer(this, ruta).setVisible(true);
+    
+    }
 
     public void mostrarMensaje(String mensaje) {
         Txt_Estado.append(mensaje + "\n");
@@ -192,6 +231,7 @@ public class Interfaz1 extends javax.swing.JFrame {
     private javax.swing.JButton Btn_Buscar;
     private javax.swing.JButton Btn_Cifrar;
     private javax.swing.JButton Btn_Descifrar;
+    private javax.swing.JButton Btn_Leer;
     private javax.swing.JTextArea Txt_Estado;
     private javax.swing.JTextField Txt_Ruta;
     private javax.swing.JLabel jLabel1;
