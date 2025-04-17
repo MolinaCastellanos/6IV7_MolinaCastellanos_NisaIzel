@@ -21,7 +21,7 @@ function mostrarSeccion(id) {
 }
 
 function validarClave(clave) {
-    return clave.length >= 8;
+    return clave.length >= 16;
 }
 
 function cifrarMensaje() {
@@ -29,7 +29,7 @@ function cifrarMensaje() {
     const clave = document.getElementById("claveCifrar").value;
 
     if (!validarClave(clave)) {
-        alert("La clave debe tener al menos 8 caracteres.");
+        alert("La clave debe tener al menos 16 caracteres.");
         return;
     }
 
