@@ -29,16 +29,41 @@
 <body class="bg-light">
   <div class="container py-5">
     <h2 class="text-center mb-4">Registro de Usuario</h2>
-    <form id="registerform" class="mx-auto" style="max-width: 400px;">
+    <form id="registerform" class="mx-auto" style="max-width: 500px;">
+      
+      <div class="mb-3" id="form-grupo-nombre">
+        <label for="nombre" class="form-label">Nombre</label>
+        <input type="text" class="form-control" id="nombre" required />
+        <div class="form-input-error">Nombre inválido</div>
+      </div>
+
+      <div class="mb-3" id="form-grupo-segundo">
+        <label for="segundo" class="form-label">Segundo Nombre</label>
+        <input type="text" class="form-control" id="segundo" />
+        <div class="form-input-error">Segundo nombre inválido</div>
+      </div>
+
+      <div class="mb-3" id="form-grupo-apellidoP">
+        <label for="apellidoP" class="form-label">Apellido Paterno</label>
+        <input type="text" class="form-control" id="apellidoP" required />
+        <div class="form-input-error">Apellido paterno inválido</div>
+      </div>
+
+      <div class="mb-3" id="form-grupo-apellidoM">
+        <label for="apellidoM" class="form-label">Apellido Materno</label>
+        <input type="text" class="form-control" id="apellidoM" required />
+        <div class="form-input-error">Apellido materno inválido</div>
+      </div>
+
       <div class="mb-3" id="form-grupo-correo">
         <label for="email" class="form-label">Correo electrónico</label>
-        <input type="email" class="form-control" id="email" name="correo" placeholder="correo@ejemplo.com" required />
+        <input type="email" class="form-control" id="email" required />
         <div class="form-input-error">Correo inválido</div>
       </div>
 
       <div class="mb-3" id="form-grupo-contrasenia">
         <label for="password" class="form-label">Contraseña</label>
-        <input type="password" class="form-control" id="password" name="contrasenia" placeholder="Contraseña segura" required />
+        <input type="password" class="form-control" id="password" required />
         <div class="form-input-error">
           La contraseña debe tener entre 8 y 20 caracteres, al menos una mayúscula, una minúscula, un número y un carácter especial.
         </div>
@@ -46,22 +71,28 @@
 
       <div class="mb-3" id="form-grupo-confirmar">
         <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
-        <input type="password" class="form-control" id="confirmPassword" placeholder="Repite la contraseña" required />
+        <input type="password" class="form-control" id="confirmPassword" required />
         <div class="form-input-error">Las contraseñas no coinciden</div>
       </div>
 
       <button type="submit" class="btn btn-primary w-100">Registrarse</button>
     </form>
+
     <p class="mt-3 text-center">¿Ya tienes cuenta? <a href="./ejemplojwt.html">Inicia sesión</a></p>
   </div>
 
   <script>
     const expresiones = {
+      texto: /^[a-zA-ZÁÉÍÓÚáéíóúñÑ\s]{2,}$/,
       correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-      contrasenia: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*_.\-])[a-zA-Z\d!@#$%^&*_.\-]{8,20}$/,
+      contrasenia: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*_.\-])[a-zA-Z\d!@#$%^&*_.\-]{8,20}$/
     };
 
     const campos = {
+      nombre: false,
+      segundo: true, // Opcional
+      apellidoP: false,
+      apellidoM: false,
       correo: false,
       contrasenia: false,
       confirmar: false
@@ -99,15 +130,37 @@
       }
     };
 
+    // Asignar eventos a cada input
+    document.getElementById('nombre').addEventListener('input', e => {
+      validarCampo(expresiones.texto, e.target, 'nombre');
+    });
+    document.getElementById('segundo').addEventListener('input', e => {
+      const valor = e.target.value.trim();
+      if (!valor || expresiones.texto.test(valor)) {
+        document.getElementById('form-grupo-segundo').classList.remove('form-grupo-incorrecto');
+        document.getElementById('form-grupo-segundo').classList.add('form-grupo-correcto');
+        document.querySelector('#form-grupo-segundo .form-input-error').classList.remove('form-input-error-activo');
+        campos.segundo = true;
+      } else {
+        document.getElementById('form-grupo-segundo').classList.add('form-grupo-incorrecto');
+        document.getElementById('form-grupo-segundo').classList.remove('form-grupo-correcto');
+        document.querySelector('#form-grupo-segundo .form-input-error').classList.add('form-input-error-activo');
+        campos.segundo = false;
+      }
+    });
+    document.getElementById('apellidoP').addEventListener('input', e => {
+      validarCampo(expresiones.texto, e.target, 'apellidoP');
+    });
+    document.getElementById('apellidoM').addEventListener('input', e => {
+      validarCampo(expresiones.texto, e.target, 'apellidoM');
+    });
     document.getElementById('email').addEventListener('input', e => {
       validarCampo(expresiones.correo, e.target, 'correo');
     });
-
     document.getElementById('password').addEventListener('input', e => {
       validarCampo(expresiones.contrasenia, e.target, 'contrasenia');
       validarConfirmacion();
     });
-
     document.getElementById('confirmPassword').addEventListener('input', e => {
       validarConfirmacion();
     });
@@ -115,22 +168,26 @@
     document.getElementById('registerform').addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const emailInput = document.getElementById('email');
-      const passwordInput = document.getElementById('password');
-      const confirmInput = document.getElementById('confirmPassword');
-
-      validarCampo(expresiones.correo, emailInput, 'correo');
-      validarCampo(expresiones.contrasenia, passwordInput, 'contrasenia');
+      // Validaciones forzadas antes de enviar
+      validarCampo(expresiones.texto, nombre, 'nombre');
+      validarCampo(expresiones.texto, apellidoP, 'apellidoP');
+      validarCampo(expresiones.texto, apellidoM, 'apellidoM');
+      validarCampo(expresiones.correo, email, 'correo');
+      validarCampo(expresiones.contrasenia, password, 'contrasenia');
       validarConfirmacion();
 
-      if (campos.correo && campos.contrasenia && campos.confirmar) {
+      if (campos.nombre && campos.segundo && campos.apellidoP && campos.apellidoM && campos.correo && campos.contrasenia && campos.confirmar) {
         try {
           const res = await fetch('http://localhost:3000/api/auth/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              email: emailInput.value,
-              password: passwordInput.value
+              nombre: nombre.value,
+              segundoNombre: segundo.value,
+              apellidoPaterno: apellidoP.value,
+              apellidoMaterno: apellidoM.value,
+              email: email.value,
+              password: password.value
             })
           });
 
