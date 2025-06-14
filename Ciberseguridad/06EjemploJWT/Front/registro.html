@@ -83,7 +83,7 @@
 
   <script>
     const expresiones = {
-      texto: /^[a-zA-ZÁÉÍÓÚáéíóúñÑ\s]{2,}$/,
+      texto: /^[a-zA-ZÁÉÍÓÚáéíóúñÑ\s]{2,35}$/,
       correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
       contrasenia: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*_.\-])[a-zA-Z\d!@#$%^&*_.\-]{8,20}$/
     };
@@ -195,7 +195,7 @@
 
           if (res.ok) {
             alert('Usuario registrado exitosamente');
-            window.location.href = 'index.html';
+            window.location.href = 'ejemplojwt.html';
           } else {
             alert(data.message || 'Error al registrar');
           }
